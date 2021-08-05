@@ -76,5 +76,5 @@ if __name__ == "__main__":
 	nom_data, ranges, minVals = autoNorm(data)
 	class_number = 3
 
-	test = [0.1,0.4,0.3]   # 你随便构造一个新样本喽，每个属性都归一化了，所以你的属性取值应该在0-1之间
+	test = np.array([0.1,0.4,0.3]).reshape(1, -1)   # 你随便构造一个新样本喽，每个属性都归一化了，所以你的属性取值应该在0-1之间
 	test_class = classify0(test, nom_data, lables, class_number)
