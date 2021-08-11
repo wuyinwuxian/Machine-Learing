@@ -45,9 +45,9 @@ Returns:
 	sortedClassCount[0][0] - 分类结果
 """
 def classify0(inX, dataSet, labels, k):
-	distances = calculate_distances(inX,dataSet)                          # 计算距离
+	distances = calculate_distances(inX,dataSet)                             # 计算距离
 	k_labels = [labels[index][0] for index in distances.argsort()[0: k]]     # 距离最近的前k个样本的标签
-	label = collections.Counter(k_labels).most_common(1)[0][0]            # 出现次数最多的标签即为最终类别
+	label = collections.Counter(k_labels).most_common(1)[0][0]               # 出现次数最多的标签即为最终类别
 	return label
 
 """
@@ -76,5 +76,5 @@ if __name__ == "__main__":
 	nom_data, ranges, minVals = autoNorm(data)
 	class_number = 3
 
-	test = np.array([0.1,0.4,0.3]).reshape(1, -1)   # 你随便构造一个新样本喽，每个属性都归一化了，所以你的属性取值应该在0-1之间
+	test = np.array([0.1,0.4,0.3]).reshape(1, -1)    # 你随便构造一个新样本喽，每个属性都归一化了，所以你的属性取值应该在0-1之间
 	test_class = classify0(test, nom_data, lables, class_number)
