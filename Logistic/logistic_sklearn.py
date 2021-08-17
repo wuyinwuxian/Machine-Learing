@@ -21,6 +21,7 @@ def Load_data(file_path):
         labels.append(float(currLine[-1]))
     return np.array(features), np.array(labels)
 
+
 """
 函数说明:对数据进行归一化
 Parameters:

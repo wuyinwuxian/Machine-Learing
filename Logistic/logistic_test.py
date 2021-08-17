@@ -34,8 +34,6 @@ Returns:
 	ranges      - 数据范围
 	minVals     - 数据最小值
 """
-
-
 def autoNorm(dataSet):
     minVals = dataSet.min(0)  ## axis 指定成0，获得数据每个特征上的最小值
     maxVals = dataSet.max(0)  ## axis 指定成0，获得数据每个特征上的最大值
@@ -56,8 +54,6 @@ Parameters:
 Returns:
 	classOutput - 分类结果输出
 """
-
-
 def classifyVector(lineOutput):
     classOutput = sigmoid(lineOutput)  # 把负无穷到正无穷的映射到 0 到 1 之间
     classOutput[classOutput > 0.5] = 1
@@ -76,8 +72,6 @@ Parameters:
 Returns:
 	weights - 求得的回归系数数组(最优参数)
 """
-
-
 def stocGradAscent(dataMatrix, classLabels, numIter=150):
     m, n = np.shape(dataMatrix)  # 返回dataMatrix的大小。m为行数,n为列数。
     dataMatrix = np.concatenate((np.ones([m, 1]), dataMatrix), axis=1).astype(float)
@@ -104,8 +98,6 @@ Parameters:
 Returns:
 	w - 最佳的权重参数
 '''
-
-
 def grad_desc(X, y, learning_rate=0.01, epochs=1000):
     n = X.shape[0]  # 样本数量
     dim = X.shape[1] + 1  # 特征数量，+1是因为有常数项
@@ -131,8 +123,6 @@ Returns:
 	Acc       - 分类精度
 	predict_y - 预测标签
 '''
-
-
 def predict(w, test_X, test_y):
     test_X = np.concatenate((np.ones([test_X.shape[0], 1]), test_X), axis=1).astype(float)
     test_y = np.array(test_y).reshape(-1, 1).astype(float)
