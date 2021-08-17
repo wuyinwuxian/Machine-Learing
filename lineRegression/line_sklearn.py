@@ -14,8 +14,8 @@ Returns:
 	minVals     - 数据最小值
 """
 def autoNorm(dataSet):
-	minVals = dataSet.min(0)    ## axis 指定成0，获得数据每个特征上的最小值
-	maxVals = dataSet.max(0)    ## axis 指定成0，获得数据每个特征上的最大值
+	minVals = dataSet.min(0)    # axis 指定成0，获得数据每个特征上的最小值
+	maxVals = dataSet.max(0)    # axis 指定成0，获得数据每个特征上的最大值
 	ranges = maxVals - minVals  # 最大值和最小值的范围
 	row = dataSet.shape[0]      # 返回dataSet的行数
 	normDataSet = (dataSet - np.tile(minVals, (row, 1))) / np.tile(ranges, (row, 1))  # 原始值减去最小值除以最大和最小值的差,得到归一化数据

@@ -13,8 +13,8 @@ Returns:
 	minVals     - 数据最小值
 """
 def autoNorm(dataSet):
-	minVals = dataSet.min(0)    ## axis 指定成0，获得数据每个特征上的最小值
-	maxVals = dataSet.max(0)    ## axis 指定成0，获得数据每个特征上的最大值
+	minVals = dataSet.min(0)    # axis 指定成0，获得数据每个特征上的最小值
+	maxVals = dataSet.max(0)    # axis 指定成0，获得数据每个特征上的最大值
 	ranges = maxVals - minVals  # 最大值和最小值的范围
 	row = dataSet.shape[0]      # 返回dataSet的行数
 	normDataSet = (dataSet - np.tile(minVals, (row, 1))) / np.tile(ranges, (row, 1))  # 原始值减去最小值除以最大和最小值的差,得到归一化数据
@@ -39,7 +39,7 @@ def grad_desc(X, y, learning_rate=0.01, epochs=1000, eps=0.0000000001, measure='
     y = np.matrix(y).reshape(-1, 1).astype(float)                     # y转化为行向量，方便矩阵运算
     w = np.zeros([dim, 1])                                            # 初始化参数
 
-    if measure == 'gd':                                               ## 常规的梯度下降法
+    if measure == 'gd':                                               # 常规的梯度下降法
         for i in range(epochs):
             loss = np.sum(np.power(np.dot(x, w) - y, 2))/n
             if (i % 1000 == 0):
@@ -47,7 +47,7 @@ def grad_desc(X, y, learning_rate=0.01, epochs=1000, eps=0.0000000001, measure='
             gradient = 2 * np.dot(x.transpose(), np.dot(x, w) - y)/n
             w = w - learning_rate * gradient
 
-    if measure == 'Adagrad':                                          ## Adagrad法
+    if measure == 'Adagrad':                                          # Adagrad法
         adagrad = np.zeros([dim, 1])
         for i in range(epochs):
             loss = np.sum(np.power(np.dot(x, w) - y, 2))/n
