@@ -1,21 +1,16 @@
 # -*- coding: UTF-8 -*-
-from matplotlib.font_manager import FontProperties
-import matplotlib.pyplot as plt
 from math import log
-import operator
-import pickle
-import  numpy as np
 import collections
-
+import pandas as pd
+from imblearn.over_sampling import RandomOverSampler
 
 """
 函数说明:创建测试数据集
-
 Parameters:
 	无
 Returns:
 	dataSet - 数据集
-	labels - 特征标签
+	labels  - 特征标签
 """
 def createDataSet():
     dataSet =[[0, 0, 0, 0, 'no'],  # 数据集
@@ -34,7 +29,7 @@ def createDataSet():
                [2, 1, 0, 2, 'yes'],
                [2, 0, 0, 0, 'no']]
     labels = ['年龄', '有工作', '有自己的房子', '信贷情况']  # 特征标签
-    return dataSet, labels  # 返回数据集和分类属性
+    return dataSet, labels                             # 返回数据集和特征标签
 
 """
 函数说明:计算给定数据集的经验熵(香农熵)
@@ -88,31 +83,31 @@ def chooseBestFeatureToSplit(dataSet):
     baseEntropy = calcShannonEnt(dataSet)  # 计算数据集的香农熵
     Gain =[]                               # 存放每个特征的信息增益
 
-    for i in range(numFeatures):           # 遍历计算所有特征的增益
-        featList = [example[i] for example in dataSet]         # 获取 dataSet 的第i个特征的所有取值
+    for feature in range(numFeatures):           # 遍历计算所有特征的信息增益
+        featList = [example[feature] for example in dataSet]   # 获取 dataSet 的第i个特征的所有取值
         uniqueVals = set(featList)                             # 创建set集合{},元素不可重复，找到该特征有几种取值
         newEntropy = 0.0                                       # 经验条件熵
 
         for value in uniqueVals:                               # 计算第 i 个特征每一种取值上的熵
-            subDataSet = splitDataSet(dataSet, i, value)       # 通过 特征的序号 i 和特征取值 value 提取出一个子数据集
+            subDataSet = splitDataSet(dataSet, feature, value) # 通过 特征的序号 i 和特征取值 value 提取出一个子数据集
             prob = len(subDataSet) / float(len(dataSet))       # 计算子集的占比
             newEntropy += prob * calcShannonEnt(subDataSet)    # 根据公式计算经验条件熵
         infoGain = baseEntropy - newEntropy                    # 信息增益
         Gain.append(infoGain)
 
-    bestFeature = Gain.index(max(Gain))
-    return bestFeature                                         # 返回信息增益最大的特征的索引值
+    bestFeatureIndex = Gain.index(max(Gain))
+    return bestFeatureIndex                                    # 返回信息增益最大的特征的索引值
 
 
 """
 函数说明:创建决策树
 
 Parameters:
-	dataSet - 训练数据集
-	labels - 分类属性标签
+	dataSet    - 训练数据集
+	labels     - 标签矩阵
 	featLabels - 存储选择的最优特征标签
 Returns:
-	myTree - 决策树
+	myTree     - 决策树
 """
 def createTree(dataSet, labels, featLabels):
     classList = [example[-1] for example in dataSet]                   # 取分类标签(是否放贷:yes or no)
@@ -122,13 +117,15 @@ def createTree(dataSet, labels, featLabels):
     if len(dataSet[0]) == 1 or len(labels) == 0:                       # 没有特征了
         return collections.Counter(classList).most_common(1)[0][0]     # 出现次数最多的标签即为最终类别, 可以参照官方文档 https://docs.python.org/zh-cn/3/library/collections.html#collections.Counter.most_common
 
-    bestFeat = chooseBestFeatureToSplit(dataSet)                       # 选择最优特征
-    bestFeatLabel = labels[bestFeat]                                   # 最优特征的标签
+    bestFeat = chooseBestFeatureToSplit(dataSet)                       # 找到最优特征的索引
+    bestFeatLabel = labels[bestFeat]                                   # 最优特征的标签，最有特征叫啥名
     featLabels.append(bestFeatLabel)
+
     myTree = {bestFeatLabel: {}}                                       # 根据最优特征的标签生成树
-    del (labels[bestFeat])                                             # 删除已经使用特征标签
+    del (labels[bestFeat])                                             # 删除已经使用特征标签，离散的就只用一次
     featValues = [example[bestFeat] for example in dataSet]            # 得到训练集中所有最优特征的属性值
-    uniqueVals = set(featValues)                                       # 去掉重复的属性值
+    uniqueVals = set(featValues)                                       # 去掉重复的属性值，就得到这个节点要分支为几个
+
     for value in uniqueVals:                                           # 遍历特征，创建决策树。
         subLabels = labels[:]
         myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value), subLabels, featLabels)   # 递归创建
@@ -136,11 +133,11 @@ def createTree(dataSet, labels, featLabels):
     return myTree
 
 """
-函数说明:使用决策树分类,这个好像不通用，我很蒙蔽
+函数说明:使用决策树分类
 Parameters:
-	inputTree - 已经生成的决策树
+	inputTree  - 已经生成的决策树
 	featLabels - 存储选择的最优特征标签
-	testVec - 测试数据列表，顺序对应最优特征标签
+	testVec    - 测试数据列表，顺序对应最优特征标签
 Returns:
 	classLabel - 分类结果
 """
@@ -151,12 +148,13 @@ def classify(inputTree, featLabels, testVec):
     for key in secondDict.keys():
         if testVec[featIndex] == key:
             if type(secondDict[key]).__name__ == 'dict':
-                classLabel = classify(secondDict[key], featLabels, testVec)
+                classLabel = classify(secondDict[key], featLabels, testVec)    # 不断向下直到到达叶子节点
             else:
                 classLabel = secondDict[key]
     return classLabel
 
 if __name__ == '__main__':
+    """测试构造的数据集，所谓的判断是否贷款给这个人"""
     dataSet, labels = createDataSet()
     featLabels = []
     myTree = createTree(dataSet, labels, featLabels)
@@ -167,3 +165,7 @@ if __name__ == '__main__':
         print('放贷')
     if result == 'no':
         print('不放贷')
+
+    """ 因为代码中划分数据是根据值来的划分的，所以只能做离散特征的问题，如果是连续的可以先区间离散化 """
+
+

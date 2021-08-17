@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn import metrics
 from sklearn import linear_model as line
+from sklearn.datasets import load_diabetes
 
 
 """
@@ -23,7 +24,6 @@ def autoNorm(dataSet):
 
 if __name__ == '__main__':
     # 导入deabetes数据集，糖尿病数据集
-    from sklearn.datasets import load_diabetes
     diabetes = load_diabetes()
     X = diabetes.data
     y = diabetes.target

@@ -57,7 +57,7 @@ ros2  = RandomOverSampler()
 balanced_red_x,balanced_red_y = ros.fit_resample(red_x,red_y)
 
 '''构建决策树'''
-DTC2 = DecisionTreeClassifier(max_depth = 10, min_samples_leaf = 5)
+DTC2 = DecisionTreeClassifier(max_depth = 12, min_samples_leaf = 2)
 DTC2.fit(balanced_red_x,balanced_red_y)
 
 '''评价模型'''
