@@ -9,8 +9,6 @@ Returns:
 	features    - 特征矩阵
 	labels      - 标签矩阵
 """
-
-
 def Load_data(file_path):
     fr = open(file_path)  # 打开数据集
     features = [];
@@ -146,3 +144,6 @@ if __name__ == '__main__':
     w2 = stocGradAscent(nom_trian_features, trian_labels, numIter=1000)
     Acc2, predict_y2 = predict(w2, nom_test_features, test_labels)
     print('测试集分类精度', Acc2)
+"""
+不用最小二乘发来求解参数而采用梯度法等优化算法的原因是因为样本过多最小二乘的计算量会成倍增加平方级增长，会很慢，而且还可能遇到特征矩阵不满秩的情况，求不出来
+"""
