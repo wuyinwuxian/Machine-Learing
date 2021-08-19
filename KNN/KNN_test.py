@@ -73,7 +73,7 @@ if __name__ == "__main__":
 	data = excel2matrix("data.xls")
 	lables = excel2matrix("labels.xls").astype(int)  # 标签是整数比较好看。清爽
 
-	nom_data, ranges, minVals = autoNorm(data)
+	nom_data, ranges, minVals = autoNorm(data)       # 数据归一化
 	class_number = 3
 
 	test = np.array([0.1,0.4,0.3]).reshape(1, -1)    # 你随便构造一个新样本喽，每个属性都归一化了，所以你的属性取值应该在0-1之间
