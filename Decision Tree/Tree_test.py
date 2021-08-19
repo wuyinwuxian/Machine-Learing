@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import numpy as np
 from math import log
 import collections
 import pandas as pd
@@ -141,10 +142,11 @@ Parameters:
 Returns:
 	classLabel - 分类结果
 """
-def classify(inputTree, featLabels, testVec):
-    firstStr = next(iter(inputTree))      # 获取决策树结点
-    secondDict = inputTree[firstStr]      # 下一个字典
-    featIndex = featLabels.index(firstStr)
+def classify(inputTree, lensesLabels, testVec):
+    firstStr = next(iter(inputTree))           # 获取当前结点，也就是用来分割数据的特征
+    secondDict = inputTree[firstStr]           # 下一个字典
+    featIndex = lensesLabels.index(firstStr)   # 特征所在列的索引
+    classLabel = ''
     for key in secondDict.keys():
         if testVec[featIndex] == key:
             if type(secondDict[key]).__name__ == 'dict':
@@ -165,6 +167,19 @@ if __name__ == '__main__':
         print('放贷')
     if result == 'no':
         print('不放贷')
+
+    """测试隐形眼睛数据集，所谓的判断是否贷款给这个人"""
+    lenses = []
+    with open('lenses.txt', 'r') as fr:  # 加载文件
+        for line in fr.readlines():
+            temp = line.strip().split('\t')
+            lenses.append(temp)          # 将样本加入数据集
+    lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+    featLabels = []
+    myTree1 = createTree(lenses, lensesLabels.copy(), featLabels)     # 不用copy()的话 执行完创建树后会改变我的 lensesLabels，python这点做的不行，形参和实参分开多好
+
+    test = ["young", "hyper", "yes","reduced"]     # 测试数据
+    test_class = classify(myTree1, lensesLabels, test)
 
     """ 因为代码中划分数据是根据值来的划分的，所以只能做离散特征的问题，如果是连续的可以先区间离散化 """
 
