@@ -85,7 +85,7 @@ or
     Erand  - 随机数据对应的的数据误差
 """
 def selectJ(i, oS, Ei):
-	max = selectJrand(i, oS.m)                              # xian随机选一个如果没有就返回随机的
+	max = selectJrand(i, oS.m)                              # 先随机选一个如果没有就返回随机的
 	Emax = calcEk(oS,max)
 	maxDeltaE = 0
 
@@ -238,9 +238,9 @@ def smoP(dataMatIn, classLabels, C, toler, maxIter):
 				print("非边界遍历:第%d次迭代 样本:%d, alpha优化次数:%d" % (iter,i,alphaPairsChanged))
 			iter += 1
 		if entireSet:																				#遍历一次后改为非边界遍历
-			entireSet = False
+			entireSet = False                                                                       #若本轮是全集遍历，则下一轮进入边界遍历(下一轮while条件中的entire是False)
 		elif (alphaPairsChanged == 0):																#如果alpha没有更新,计算全样本遍历
-			entireSet = True
+			entireSet = True                                                                        #若本轮是边界遍历，且本轮遍历未修改任何alpha对，则下一轮进入全集遍历
 		print("迭代次数: %d" % iter)
 	return oS.b,oS.alphas 																			#返回SMO算法计算的b和alphas
 
@@ -291,7 +291,7 @@ def classier(x,w,b):
 
 if __name__ == '__main__':
 	dataMat, labelMat = loadDataSet('testSet.txt')
-	b, alphas =  smoP(dataMat, labelMat, 5.0, 0.001, 40)
+	b, alphas =  smoP(dataMat, labelMat, 0.6, 0.001, 40)
 	w = np.dot((np.tile(labelMat.reshape(-1, 1), (1, 2)) * dataMat).T, alphas)    # 计算w
 	showClassifer(dataMat, labelMat, w, b)
 
