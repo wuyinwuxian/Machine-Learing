@@ -95,5 +95,8 @@ if __name__ == '__main__':
 
     w2 = grad_desc(X_train, y_train, learning_rate=0.03, epochs=10000, measure='Adagrad')
     print('使用Adagrad的MSE：', predict(w2, X_test, y_test)[0])
+    """
+    不用最小二乘发来求解参数而采用梯度法等优化算法的原因是因为样本过多最小二乘的计算量会成倍增加平方级增长，会很慢，而且还可能遇到特征矩阵不满秩的情况，求不出来
+    """
 
 

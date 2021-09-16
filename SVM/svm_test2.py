@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+from sklearn import svm
 
 """
 数据结构，维护所有需要操作的值
@@ -291,7 +292,7 @@ def classier(x,w,b):
 
 if __name__ == '__main__':
 	dataMat, labelMat = loadDataSet('testSet.txt')
-	b, alphas =  smoP(dataMat, labelMat, 0.6, 0.001, 40)
+	b, alphas =  smoP(dataMat, labelMat, 10, 0.001, 40)
 	w = np.dot((np.tile(labelMat.reshape(-1, 1), (1, 2)) * dataMat).T, alphas)    # 计算w
 	showClassifer(dataMat, labelMat, w, b)
 
