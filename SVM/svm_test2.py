@@ -249,9 +249,10 @@ def smoP(dataMatIn, classLabels, C, toler, maxIter):
 """
 函数说明:分类结果可视化,二维的情况
 Parameters:
-	dataMat - 数据矩阵
-    w       - 直线法向量或者说系数
-    b       - 直线截距
+	dataMat  - 数据矩阵
+	labelMat - 标签矩阵
+    w        - 直线法向量或者说系数
+    b        - 直线截距
 Returns:
     无
 """
