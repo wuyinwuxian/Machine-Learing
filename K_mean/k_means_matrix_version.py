@@ -1,18 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-"""
-函数说明:计算两个样本的距离（欧氏距离）
-Parameters:
-	vector1 - 样本向量1
-    vector2 - 样本向量2
-Returns:
-    两个样本的欧式距离，是一个一个标量
-"""
-def euclDistance(vector1, vector2):
-    return np.sqrt(np.sum(np.power(vector2 - vector1, 2)))
-
 """
 函数说明:计算样本和簇中心距离矩阵
 Parameters:
