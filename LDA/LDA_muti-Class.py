@@ -36,22 +36,22 @@ def LDA_dimensionality(X, y, k):
         X1 = np.array([X[i] for i in range(len(X)) if y[i] == label])
         X_classify[label] = X1
 
-    mju = np.mean(X, axis=0)    # 整体样本矩阵的均值中心
+    average = np.mean(X, axis=0)    # 整体样本矩阵的均值中心
 
-    mju_classify = {}           # 找出每个类别的均值中心，存成一个字典，同样键是类别，值是对应均值中心
+    average_classify = {}           # 找出每个类别的均值中心，存成一个字典，同样键是类别，值是对应均值中心
     for label in label_:
-        mju1 = np.mean(X_classify[label], axis=0)
-        mju_classify[label] = mju1
+        average1 = np.mean(X_classify[label], axis=0)
+        average_classify[label] = average1
 
-    #Sw = np.dot((X - mju).T, X - mju)
-    Sw = np.zeros((len(mju), len(mju)))  # 计算类内散度矩阵，特征*特征个数
+    #Sw = np.dot((X - average).T, X - average)
+    Sw = np.zeros((len(average), len(average)))  # 计算类内散度矩阵，特征*特征个数
     for i in label_:
-        Sw += np.dot((X_classify[i] - mju_classify[i]).T, X_classify[i] - mju_classify[i])
+        Sw += np.dot((X_classify[i] - average_classify[i]).T, X_classify[i] - average_classify[i])
 
     # Sb=St-Sw
-    Sb = np.zeros((len(mju), len(mju)))  # 计算类内散度矩阵
+    Sb = np.zeros((len(average), len(average)))  # 计算类内散度矩阵
     for i in label_:
-        Sb += len(X_classify[i]) * np.dot((mju_classify[i] - mju).reshape((len(mju), 1)), (mju_classify[i] - mju).reshape((1, len(mju))))
+        Sb += len(X_classify[i]) * np.dot((average_classify[i] - average).reshape((len(average), 1)), (average_classify[i] - average).reshape((1, len(average))))
 
     eig_vals, eig_vecs = np.linalg.eig(np.linalg.inv(Sw).dot(Sb))   # 计算Sw-1*Sb的特征值和特征矩阵
 
