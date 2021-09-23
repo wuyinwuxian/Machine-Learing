@@ -41,23 +41,6 @@ def compute_sw(dataset, ave):
         sw += np.dot(x,x.T)
     return sw
 
-'''
-函数说明:计算所有类别样本的类间散度
-Parameters:
-	sample_number_arrary - 每个类别的样本个数向量
-	sample_mean_arrary   - 每个类别的均值向量构成的矩阵
-Returns:
-    sb      - 类间散度
-'''
-def compute_sb(sample_number_arrary, sample_mean_arrary):
-    n = sample_number_arrary.shape[1]
-    sb = np.zeros((n, n))
-    u = average(sample_mean_arrary)   # 全b局均值中心
-    for mi,ui in zip(sample_number_arrary,sample_mean_arrary):
-        x = np.array(ui - u).reshape(-1,1)
-        sb += np.dot(x,x.T)* mi
-    return sb
-
 
 
 if __name__ == '__main__':
@@ -82,15 +65,6 @@ if __name__ == '__main__':
 虽然西瓜书放在了线性模型这一张，但是我觉得他放在降维哪儿更适合
 输入：数据集 D = {(x1, y1),  (x2, y2), .... (xm, ym)}，其中任意样本 xi 为 n维向量， yi € {C1,  c2, ...Ck}，降维到的维度 d。
 输出：降维后的样本集 D'
-
-多类别：
-1）计算每一种类别的样本均值
-2）计算类内散度矩阵Sw
-3）计算类间散度矩阵 Sb   
-4）计算矩阵Sw-1Sb
-5) 计算 Sw-1Sb 的最大的 d个特征值和对应的 d个特征向量 （w1, w2, ... wd），得到投影矩阵 W
-6）对样本集中的每一个样本特征 xi，转化为新的样本 zi = WTxi
-7）得到输出样本集 D' = {(z1, y1),  (z2, y2), .... (zm, ym)}
 
 二类别：
 1）计算每一种类别的样本均值
