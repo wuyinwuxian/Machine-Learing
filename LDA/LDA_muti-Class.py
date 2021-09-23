@@ -10,11 +10,11 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 输出：降维后的样本集 D'
 
 多类别：
-1）计算每一种类别的样本均值
+1）计算每一种类别的样本均值，和整体的样本均值
 2）计算类内散度矩阵Sw
 3）计算类间散度矩阵 Sb   
 4）计算矩阵Sw-1Sb
-5) 计算 Sw-1Sb 的最大的 d个特征值和对应的 d个特征向量 （w1, w2, ... wd），得到投影矩阵 W
+5) 计算 Sw-1Sb 的最大的 k个特征值和对应的 k个特征向量 （w1, w2, ... wk），得到投影矩阵 W
 6）对样本集中的每一个样本特征 xi，转化为新的样本 zi = WTxi
 7）得到输出样本集 D' = {(z1, y1),  (z2, y2), .... (zm, ym)}
 """
