@@ -6,7 +6,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 """
 虽然西瓜书放在了线性模型这一张，但是我觉得他放在降维哪儿更适合
-输入：数据集 D = {(x1, y1),  (x2, y2), .... (xm, ym)}，其中任意样本 xi 为 n维向量， yi € {C1,  c2, ...Ck}，降维到的维度 d。
+输入：数据集 D = {(x1, y1),  (x2, y2), .... (xm, ym)}，其中任意样本 xi 为 n维向量， yi € {C1,  c2, ...Ck}，降维到的维度 k。
 输出：降维后的样本集 D'
 
 多类别：
