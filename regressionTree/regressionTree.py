@@ -192,3 +192,5 @@ if __name__ == '__main__':
 	print(prune(tree, test_Mat))
 
 	plotDataSet(train_Data)
+
+	"""这东西是用来做回归，里面切割特征的那一套还是离散属性那一套，和Decision Tree，基本一致，这儿主要看一下这个后剪枝是怎么一个过程"""
